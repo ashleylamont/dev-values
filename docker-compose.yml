@@ -1,0 +1,25 @@
+services:
+  dev-values:
+    pull_policy: build
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dev-values
+      # ports:
+    # - "3001:3001"
+    restart: on-failure
+    environment:
+      NODE_ENV: production
+    networks:
+      - traefik_web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cssacommonroom.rule=Host(`devvalues.ashl.dev`)"
+      - "traefik.http.routers.cssacommonroom.entrypoints=websecure"
+      - "traefik.http.services.cssacommonroom.loadbalancer.server.port=3000"
+      - "traefik.http.routers.cssacommonroom.tls.certresolver=leresolver"
+
+networks:
+  traefik_web:
+    name: traefik_web
+    external: true
