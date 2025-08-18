@@ -14,4 +14,4 @@ RUN bunx vite build --mode=production
 
 # 4) run the server
 EXPOSE 3000
-CMD ["bunx", "http-server", "dist", "--port", "3000", "-d", "false", "-b", "true", "-g", "true"]
+CMD ["bun", "server.ts"]
