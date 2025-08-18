@@ -14,10 +14,10 @@ services:
       - traefik_web
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.cssacommonroom.rule=Host(`devvalues.ashl.dev`)"
-      - "traefik.http.routers.cssacommonroom.entrypoints=websecure"
-      - "traefik.http.services.cssacommonroom.loadbalancer.server.port=3000"
-      - "traefik.http.routers.cssacommonroom.tls.certresolver=leresolver"
+      - "traefik.http.routers.devvalues.rule=Host(`devvalues.ashl.dev`)"
+      - "traefik.http.routers.devvalues.entrypoints=websecure"
+      - "traefik.http.services.devvalues.loadbalancer.server.port=3000"
+      - "traefik.http.routers.devvalues.tls.certresolver=leresolver"
 
 networks:
   traefik_web:
