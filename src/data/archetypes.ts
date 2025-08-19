@@ -61,21 +61,23 @@ const BADGE_TEMPLATES: Record<
 
 export type AxisScores = Record<AxisId, number>; // 0..100 toward the positive label
 
-// Produce badges for display (strong >72, medium >60)
+// Produce badges for display (weak >25, strong >50, medium >75)
 export function buildBadges(
   scores: AxisScores,
-  medium = 60,
-  strong = 72,
+  weak = 25,
+  medium = 50,
+  strong = 75,
 ): string[] {
   const out: string[] = [];
   (Object.keys(scores) as AxisId[]).forEach((id) => {
-    const v = scores[id] ?? 50;
-    const d = v - 50;
+    const scoreValue = scores[id] ?? 0;
     const t = BADGE_TEMPLATES[id];
-    if (Math.abs(d) < medium - 50) return; // near neutral, no badge
+    if (Math.abs(scoreValue) < weak) return; // skip weak scores
 
-    const tier = Math.abs(d) >= strong - 50 ? 2 : 1; // 0=lean,1=strong,2=max
-    out.push(d >= 0 ? t.pos[tier] : t.neg[tier]);
+    let tier = 0; // 0 = weak, 1 = medium, 2 = strong
+    if (scoreValue >= strong) tier = 2;
+    else if (scoreValue >= medium) tier = 1;
+    out.push(scoreValue >= 0 ? t.pos[tier] : t.neg[tier]);
   });
   return out.sort((a, b) => a.localeCompare(b));
 }
