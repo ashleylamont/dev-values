@@ -316,7 +316,7 @@ export const DEV_VALUES_QUESTIONS: DevValuesQuestion[] = [
   },
   {
     id: "EH4",
-    text: "I prefer polished releases over endless GitHub debates.",
+    text: "Product managers are better at setting a clear direction for projects than open-source discussions and debates are.",
     positiveAxes: [],
     negativeAxes: ["ethos"],
   },

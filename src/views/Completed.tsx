@@ -114,6 +114,8 @@ export function Completed() {
     setCompareResults(newResults);
   }
 
+  const [justDidCopy, setJustDidCopy] = useState(false);
+
   async function saveResultsToClipboard() {
     if (state.status !== "COMPLETED") {
       alert("No results to copy. Please complete the questionnaire first.");
@@ -123,7 +125,8 @@ export function Completed() {
       (axis) => `${axis.id}=${state.result[axis.id] || 0}`,
     ).join("\n");
     await navigator.clipboard.writeText(text);
-    alert("Results copied to clipboard!");
+    setJustDidCopy(true);
+    setTimeout(() => setJustDidCopy(false), 5000);
   }
 
   const combinedResultsForChart = useMemo(() => {
@@ -168,7 +171,7 @@ export function Completed() {
           </p>
         </hgroup>
       )}
-      <div className="mb-4">
+      <div className="mb-4 max-w-screen overflow-x-auto">
         <RadarChart width={800} height={400} data={combinedResultsForChart}>
           <PolarGrid />
           <PolarAngleAxis dataKey={"label"} />
@@ -197,7 +200,7 @@ export function Completed() {
           Compare Results from Clipboard
         </Button>
         <Button onClick={saveResultsToClipboard}>
-          Save Results to Clipboard
+          {justDidCopy ? "Copied!" : "Save Results to Clipboard"}
         </Button>
       </div>
       {badges.length > 0 && (
