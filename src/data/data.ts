@@ -21,440 +21,431 @@ export interface DevValuesAxis {
   moderatePositiveDescription: string;
   farPositiveDescription: string;
 }
-
-// Axes
+// ===== Axes =====
 export const DEV_VALUES_AXES: DevValuesAxis[] = [
   {
-    id: "arch",
-    name: "Architecture",
-    description:
-      "Preference for higher-level abstractions versus lower-level explicit control.",
-    positiveLabel: "Abstract",
-    negativeLabel: "Concrete",
-    farNegativeDescription:
-      "Prefers low-level primitives and direct tunables; minimal reliance on frameworks or generators.",
-    moderateNegativeDescription:
-      "Implements key paths with explicit control and fine-grained configuration.",
-    lightNegativeDescription:
-      "Leans to explicit APIs and escape hatches, even if it adds some complexity.",
-    neutralDescription:
-      "Mixes abstraction and control based on context and impact.",
-    lightPositiveDescription:
-      "Uses frameworks to hide boilerplate and common cross-cutting concerns.",
-    moderatePositiveDescription:
-      "Defaults to high-level components and code generation to reduce incidental complexity.",
-    farPositiveDescription:
-      "Maximizes developer-time leverage with layered abstractions and managed building blocks.",
-  },
-  {
-    id: "proc",
-    name: "Delivery Process",
-    description:
-      "Emphasis on upfront design and gates versus rapid iteration and learning-by-shipping.",
-    positiveLabel: "Upfront Design",
-    negativeLabel: "Prototyping",
-    farNegativeDescription:
-      "Ships early and often with lightweight checks; course-corrects via rapid feedback.",
-    moderateNegativeDescription:
-      "Optimizes for MVPs and short cycles; formal planning is minimal.",
-    lightNegativeDescription:
-      "Uses flags and staged rollouts to iterate while watching impact.",
-    neutralDescription: "Balances upfront thinking with incremental releases.",
-    lightPositiveDescription:
-      "Begins significant work with short design notes and acceptance criteria.",
-    moderatePositiveDescription:
-      "Uses explicit gates (reviews, tests, canaries) for risky changes.",
-    farPositiveDescription:
-      "Prioritizes comprehensive specifications, formal reviews, and quality bars before release.",
-  },
-  {
-    id: "team",
-    name: "Collaboration",
-    description:
-      "Organization-wide standardization versus team-level autonomy in tools and process.",
-    positiveLabel: "Standardization",
-    negativeLabel: "Team Autonomy",
-    farNegativeDescription:
-      "Teams choose their own stacks and practices with minimal central constraints.",
-    moderateNegativeDescription:
-      "Local conventions can override org standards when they improve outcomes.",
-    lightNegativeDescription:
-      "Prefers opt-in guidelines with room for exceptions.",
-    neutralDescription:
-      "Adopts shared practices where helpful; allows divergence when justified.",
-    lightPositiveDescription:
-      "Uniform lint/format/build tools to reduce friction across teams.",
-    moderatePositiveDescription:
-      "Converges on shared patterns to ease mobility and cross-team maintenance.",
-    farPositiveDescription:
-      "Strong central standards, tooling, and conventions applied consistently across the org.",
-  },
-  {
-    id: "risk",
-    name: "Stability",
-    description:
-      "Willingness to trade speed for reliability versus accepting controlled risk for velocity.",
-    positiveLabel: "Reliability",
-    negativeLabel: "Speed",
-    farNegativeDescription:
-      "Tolerates higher operational risk to meet deadlines and respond quickly.",
-    moderateNegativeDescription:
-      "Deploys directly when rollback is easy and blast radius is small.",
-    lightNegativeDescription:
-      "Accepts limited shortcuts when customer impact is time-sensitive.",
-    neutralDescription: "Balances error budgets with delivery needs.",
-    lightPositiveDescription:
-      "Uses canaries/gradual rollouts for most nontrivial changes.",
-    moderatePositiveDescription:
-      "Enforces SLOs and review gates, delaying releases when needed.",
-    farPositiveDescription:
-      "Optimizes for predictability and resilience even at substantial cost to speed.",
-  },
-  {
-    id: "type",
+    id: "typing",
     name: "Typing",
     description:
-      "Value placed on static typing and compile-time guarantees versus dynamic flexibility.",
-    positiveLabel: "Static Types",
-    negativeLabel: "Dynamic Types",
+      "How much you want the compiler to catch things versus keeping it loose and flexible.",
+    positiveLabel: "Static",
+    negativeLabel: "Dynamic",
     farNegativeDescription:
-      "Favors dynamic languages for speed and experimentation; relies on tests/runtime checks.",
+      "Types are optional; quick runs and tests are my safety net. The code will tell me what it wants.",
     moderateNegativeDescription:
-      "Uses types selectively; avoids strictness until the domain stabilizes.",
+      "Prefer dynamic until the domain settles; add structure later if it earns its keep.",
     lightNegativeDescription:
-      "Adds annotations where helpful, but keeps ergonomics simple.",
-    neutralDescription: "Chooses typing strength per domain and maturity.",
+      "Annotate only the tricky bits; keep the rest breezy.",
+    neutralDescription:
+      "Pick the typing approach that makes this codebase calmer, not louder.",
     lightPositiveDescription:
-      "Sees clear IDE/refactor benefits from type annotations.",
+      "Types are great documentation and make tools smarter.",
     moderatePositiveDescription:
-      "Defaults to strong typing for larger or longer-lived codebases.",
+      "Default to strong static typing for medium-to-large work; it prevents whole categories of oopsies.",
     farPositiveDescription:
-      "Prioritizes strict static guarantees and generics for correctness and tooling.",
+      "If the compiler isn’t happy, I’m not shipping. Future-me thanks present-me.",
   },
   {
-    id: "repo",
-    name: "Codebase Structure",
+    id: "abstraction",
+    name: "Abstraction",
     description:
-      "Single shared monorepo versus multiple independent repositories.",
-    positiveLabel: "Monorepos",
-    negativeLabel: "Multirepos",
+      "Hide complexity with higher-level tools, or keep the knobs and dials in reach?",
+    positiveLabel: "High-Level",
+    negativeLabel: "Low-Level",
     farNegativeDescription:
-      "Prefers many repos with clear boundaries and independent lifecycles.",
+      "Show me the gears. I want to see memory, layout, and what’s really happening.",
     moderateNegativeDescription:
-      "Optimizes for ownership clarity and lighter checkouts.",
+      "I’ll accept extra code for predictable control paths.",
     lightNegativeDescription:
-      "Uses separate repos to decouple release cadence where helpful.",
+      "Abstractions are fine, but I want escape hatches right there.",
     neutralDescription:
-      "Mixes monorepo and multirepo based on coupling and ownership.",
+      "Use the simplest level that still lets me reason about the system.",
     lightPositiveDescription:
-      "Values atomic cross-service changes and unified tooling.",
+      "Let the library handle the boilerplate; I’ve got logic to write.",
     moderatePositiveDescription:
-      "Centralized CI and shared infra outweigh monorepo scaling costs.",
+      "Good abstractions pay rent daily by removing incidental complexity.",
     farPositiveDescription:
-      "Strongly favors a single repo for consistency, discoverability, and org-wide changes.",
+      "Layer-cake enjoyer: build on shoulders, not on raw rebar.",
   },
   {
-    id: "plat",
-    name: "Platform",
+    id: "design",
+    name: "Design Style",
     description:
-      "Using managed cloud services versus running infrastructure yourself.",
-    positiveLabel: "Cloud-First",
-    negativeLabel: "Self-Hosted",
+      "Sketch first or learn by building? (Both are valid; which do you reach for first?)",
+    positiveLabel: "Architecture First",
+    negativeLabel: "Prototype First",
     farNegativeDescription:
-      "Runs core services in-house for full control and portability.",
+      "Prototype first, ask questions later. The code is the conversation.",
     moderateNegativeDescription:
-      "Owns critical components to manage cost, performance, and compliance.",
-    lightNegativeDescription:
-      "Self-hosts selectively to avoid lock-in and provider limits.",
+      "Small spikes reveal the shape faster than long documents.",
+    lightNegativeDescription: "A tiny proof-of-concept beats a long debate.",
     neutralDescription:
-      "Combines managed and self-hosted services pragmatically.",
+      "A quick plan plus a quick prototype - whichever reduces risk.",
     lightPositiveDescription:
-      "Adopts provider primitives (auth/queues/secrets) to reduce toil.",
+      "A one-pager of goals and invariants makes the rest smoother.",
     moderatePositiveDescription:
-      "Defaults to managed databases and platforms to accelerate delivery.",
-    farPositiveDescription:
-      "Maximizes managed offerings to minimize undifferentiated ops work.",
+      "Interfaces and constraints deserve thought before typing.",
+    farPositiveDescription: "Measure twice, cut once; then cut cleanly.",
   },
   {
-    id: "obs",
-    name: "Operational Surface",
+    id: "paradigm",
+    name: "Paradigm",
     description:
-      "Rich observability by default versus keeping systems minimal.",
-    positiveLabel: "Observability",
-    negativeLabel: "Minimalism",
+      "How you like to express solutions: function pipelines or object orchestras.",
+    positiveLabel: "Functional",
+    negativeLabel: "Object-Oriented",
     farNegativeDescription:
-      "Minimizes agents/sidecars/dashboards; prefers few moving parts.",
+      "Everything is an object; behavior lives with data; long live encapsulation.",
     moderateNegativeDescription:
-      "Restricts instrumentation to essentials for simplicity.",
-    lightNegativeDescription: "Adds telemetry sparingly to reduce overhead.",
+      "Interfaces and polymorphism model the world clearly.",
+    lightNegativeDescription:
+      "Objects help organize stateful concerns and teams.",
     neutralDescription:
-      "Observes enough to operate safely without over-instrumenting.",
+      "Use functions or objects - just don’t fight the problem.",
     lightPositiveDescription:
-      "Standard metrics, tracing, and structured logs for most services.",
+      "Pure functions and immutability reduce surprise.",
     moderatePositiveDescription:
-      "Invests in feature flags and progressive delivery to manage risk.",
+      "Composition over inheritance; data in, data out.",
     farPositiveDescription:
-      "Comprehensive telemetry and controls to support frequent, safe changes.",
+      "Side-effects can stay in the corner; data should flow like a calm river.",
+  },
+  {
+    id: "ethos",
+    name: "Community Ethos",
+    description: "Where you sit on sharing code and knowledge.",
+    positiveLabel: "Open-Source",
+    negativeLabel: "Proprietary",
+    farNegativeDescription:
+      "Ship it closed, curate it carefully, and publish when it’s a product.",
+    moderateNegativeDescription:
+      "Prefer private repos and polished releases; open later if useful.",
+    lightNegativeDescription:
+      "Share selectively; keep competitive bits in-house.",
+    neutralDescription: "Open when it helps; closed when it must.",
+    lightPositiveDescription:
+      "Default public for reusable bits; sunlight is a good reviewer.",
+    moderatePositiveDescription:
+      "Upstream instead of long-term forks; collaborate in the open.",
+    farPositiveDescription:
+      "If it’s useful to others, it belongs on the commons shelf.",
+  },
+  {
+    id: "ai",
+    name: "Tooling / AI Workflow",
+    description: "How much you want AI/codegen in the loop.",
+    positiveLabel: "AI-Driven",
+    negativeLabel: "Hand-Crafted",
+    farNegativeDescription: "I hand-write it; assistants can grab coffee.",
+    moderateNegativeDescription:
+      "I’ll accept autocomplete - AI shouldn’t drive the bus.",
+    lightNegativeDescription:
+      "Maybe for boilerplate, but I prefer owning the ideas.",
+    neutralDescription: "Use AI when it actually reduces thinking tax.",
+    lightPositiveDescription: "Let AI sketch; I’ll edit with taste and tests.",
+    moderatePositiveDescription:
+      "AI for scaffolds, drafts, and options - then human judgment.",
+    farPositiveDescription: "Agent-assisted building; I steer, they shovel.",
+  },
+  {
+    id: "release",
+    name: "Release Temperament",
+    description: "How spicy you like your tools: brand-new or proven-classic.",
+    positiveLabel: "Cutting-Edge",
+    negativeLabel: "LTS/Conservative",
+    farNegativeDescription:
+      "Give me the stable stuff; wake me when it’s version 3.2.1.",
+    moderateNegativeDescription: "Prefer LTS and long-term compatibility.",
+    lightNegativeDescription: "Adopt when the sharp edges are sanded down.",
+    neutralDescription: "New is fine - after someone else finds the dragons.",
+    lightPositiveDescription:
+      "Happy to try new versions when the payoff looks real.",
+    moderatePositiveDescription:
+      "Early adopter with backups; moving targets keep me sharp.",
+    farPositiveDescription: "Nightlies are my breakfast cereal.",
+  },
+  {
+    id: "editor",
+    name: "Editor / Environment",
+    description: "Big integrated IDE, or lightweight editor plus command line?",
+    positiveLabel: "IDE/Integrated",
+    negativeLabel: "Minimalist + CLI",
+    farNegativeDescription:
+      "Terminal native. A speedy editor and a toolbox of commands are all I need.",
+    moderateNegativeDescription:
+      "Prefer minimal editor + CLI; debuggers only when necessary.",
+    lightNegativeDescription:
+      "Linters and simple tools first; GUI when it truly helps.",
+    neutralDescription:
+      "Use whichever is faster for today; comfortable in both worlds.",
+    lightPositiveDescription:
+      "Integrated refactors and debugging keep me in flow.",
+    moderatePositiveDescription:
+      "I learn my IDE deeply: navigation, inspections, quick-fixes.",
+    farPositiveDescription:
+      "IDE power-user: breakpoints, code actions, and analysis on tap.",
   },
 ];
 
-// Questions
+// ===== Questions =====
+// 4 per axis (32) + 8 cross-axis = 40 items.
+// Agreeing nudges you toward each axis’s positiveLabel in `positiveAxes`,
+// and toward the negativeLabel for any axis in `negativeAxes`.
 export const DEV_VALUES_QUESTIONS: DevValuesQuestion[] = [
-  // Architecture
+  // Typing (Static + / Dynamic -)
   {
-    id: "A1",
-    text: "For most teams, higher-level frameworks are worth the trade-off in fine-grained control.",
-    positiveAxes: ["arch"],
+    id: "TY1",
+    text: "Strong static types usually pay for themselves once a codebase gets medium-sized.",
+    positiveAxes: ["typing"],
     negativeAxes: [],
   },
   {
-    id: "A2",
-    text: "Gaining direct control over performance characteristics is often worth extra complexity.",
+    id: "TY2",
+    text: "Early on, dynamic typing keeps momentum up without causing chaos.",
     positiveAxes: [],
-    negativeAxes: ["arch"],
+    negativeAxes: ["typing"],
   },
   {
-    id: "A3",
-    text: "Abstractions that hide distributed concerns (retries, timeouts, backoff) are beneficial by default.",
-    positiveAxes: ["arch"],
+    id: "TY3",
+    text: "I’d rather have the compiler argue with me now than a bug argue with me later.",
+    positiveAxes: ["typing"],
     negativeAxes: [],
   },
   {
-    id: "A4",
-    text: "Exposing lower-level details helps diagnose issues and avoid leaky abstractions.",
+    id: "TY4",
+    text: "If types slow me down, I’ll remove them and rely on tests and common sense.",
     positiveAxes: [],
-    negativeAxes: ["arch"],
+    negativeAxes: ["typing"],
   },
 
-  // Delivery Process
+  // Abstraction (High-Level + / Low-Level Control -)
   {
-    id: "P1",
-    text: "Significant work should begin with a concise written plan or design note.",
-    positiveAxes: ["proc"],
+    id: "AB1",
+    text: "Good libraries are worth it even if I don’t touch the gears underneath.",
+    positiveAxes: ["abstraction"],
     negativeAxes: [],
   },
   {
-    id: "P2",
-    text: "Shipping a thin MVP to learn from users beats extended planning for most features.",
+    id: "AB2",
+    text: "Understanding and controlling the details of what your program does is worth a few extra lines.",
     positiveAxes: [],
-    negativeAxes: ["proc"],
+    negativeAxes: ["abstraction"],
   },
   {
-    id: "P3",
-    text: "Risky changes should meet explicit entry/exit criteria (tests, review, canary).",
-    positiveAxes: ["proc"],
+    id: "AB3",
+    text: "A helpful abstraction that hides noise is doing its job.",
+    positiveAxes: ["abstraction"],
     negativeAxes: [],
   },
   {
-    id: "P4",
-    text: "Merging behind a feature flag and refining post-release is acceptable for non-critical work.",
+    id: "AB4",
+    text: "Abstractions are fine, but I want low-level control nearby for when they break.",
     positiveAxes: [],
-    negativeAxes: ["proc"],
+    negativeAxes: ["abstraction"],
   },
 
-  // Collaboration
+  // Design Style (Upfront + / Evolutionary -)
   {
-    id: "C1",
-    text: "Uniform tooling (lint/format/build) across teams reduces friction more than it constrains.",
-    positiveAxes: ["team"],
+    id: "DS1",
+    text: "I prefer a short design note before I touch the keyboard.",
+    positiveAxes: ["design"],
     negativeAxes: [],
   },
   {
-    id: "C2",
-    text: "Teams should be free to choose languages/frameworks when they own the outcomes.",
+    id: "DS2",
+    text: "A tiny prototype answers more questions than a long discussion.",
     positiveAxes: [],
-    negativeAxes: ["team"],
+    negativeAxes: ["design"],
   },
   {
-    id: "C3",
-    text: "Converging on shared patterns improves cross-team mobility and maintainability.",
-    positiveAxes: ["team"],
+    id: "DS3",
+    text: "Figuring out what things are called and how they connect early saves trouble later.",
+    positiveAxes: ["design"],
     negativeAxes: [],
   },
   {
-    id: "C4",
-    text: "Local conventions may trump org standards when they measurably speed delivery.",
+    id: "DS4",
+    text: "I learn the shape of the problem by building something small and adjusting.",
     positiveAxes: [],
-    negativeAxes: ["team"],
+    negativeAxes: ["design"],
   },
 
-  // Stability / Risk
+  // Paradigm (Functional + / Object-Oriented -)
   {
-    id: "R1",
-    text: "I would delay a release to respect error budgets and SLOs.",
-    positiveAxes: ["risk"],
+    id: "PD1",
+    text: "Pure functions and immutability are my default starting point.",
+    positiveAxes: ["paradigm"],
     negativeAxes: [],
   },
   {
-    id: "R2",
-    text: "Hitting a customer deadline can justify taking controlled operational risk.",
+    id: "PD2",
+    text: "Wrapping data and logic together in objects makes sense to me.",
     positiveAxes: [],
-    negativeAxes: ["risk"],
+    negativeAxes: ["paradigm"],
   },
   {
-    id: "R3",
-    text: "Gradual rollouts (canary/partial) are worth the extra steps for most changes.",
-    positiveAxes: ["risk"],
+    id: "PD3",
+    text: "Composition beats inheritance most days of the week.",
+    positiveAxes: ["paradigm"],
     negativeAxes: [],
   },
   {
-    id: "R4",
-    text: "A direct deploy is reasonable when rollback is easy and blast radius is small.",
+    id: "PD4",
+    text: "Interfaces and polymorphism make code easier to navigate than function pipelines.",
     positiveAxes: [],
-    negativeAxes: ["risk"],
+    negativeAxes: ["paradigm"],
   },
 
-  // Typing
+  // Community Ethos (Open Commons + / Proprietary -)
   {
-    id: "T1",
-    text: "Strong static types usually pay off in larger or longer-lived codebases.",
-    positiveAxes: ["type"],
+    id: "EH1",
+    text: "If it might help others, my default is to open-source it.",
+    positiveAxes: ["ethos"],
     negativeAxes: [],
   },
   {
-    id: "T2",
-    text: "Dynamic typing often accelerates early product work without unacceptable risk.",
+    id: "EH2",
+    text: "I’d rather keep code private until it’s cleaned up and feels worth showing.",
     positiveAxes: [],
-    negativeAxes: ["type"],
+    negativeAxes: ["ethos"],
   },
   {
-    id: "T3",
-    text: "Type annotations primarily improve tooling (jump-to-def, refactor, autocomplete).",
-    positiveAxes: ["type"],
+    id: "EH3",
+    text: "Contributing upstream beats maintaining long-lived forks.",
+    positiveAxes: ["ethos"],
     negativeAxes: [],
   },
   {
-    id: "T4",
-    text: "For simple domains, tests can substitute for strict static types.",
+    id: "EH4",
+    text: "I prefer polished releases over endless GitHub debates.",
     positiveAxes: [],
-    negativeAxes: ["type"],
+    negativeAxes: ["ethos"],
   },
 
-  // Codebase Structure
+  // Tooling / AI Workflow (Generative + / Explicit Craft -)
   {
-    id: "M1",
-    text: "Atomic cross-service changes are a major advantage of a monorepo.",
-    positiveAxes: ["repo"],
+    id: "AI1",
+    text: "Let AI draft code or docs; I’ll tidy and test.",
+    positiveAxes: ["ai"],
     negativeAxes: [],
   },
   {
-    id: "M2",
-    text: "Independent versioning and release cadences matter more than atomic commits.",
+    id: "AI2",
+    text: "I’d rather write things myself - AI is a last resort.",
     positiveAxes: [],
-    negativeAxes: ["repo"],
+    negativeAxes: ["ai"],
   },
   {
-    id: "M3",
-    text: "Centralized CI and shared infra outweigh large-repo tooling costs.",
-    positiveAxes: ["repo"],
+    id: "AI3",
+    text: "AI is great for scaffolding options I wouldn’t have considered.",
+    positiveAxes: ["ai"],
     negativeAxes: [],
   },
   {
-    id: "M4",
-    text: "Separate repos clarify ownership and boundaries for distributed teams.",
+    id: "AI4",
+    text: "If I can’t understand the code myself, then I don’t want AI sneaking it into the repo.",
     positiveAxes: [],
-    negativeAxes: ["repo"],
+    negativeAxes: ["ai"],
   },
 
-  // Platform
+  // Release Temperament (Cutting-Edge + / LTS/Conservative -)
   {
-    id: "S1",
-    text: "Managed databases/queues reduce operational burden enough to justify some lock-in.",
-    positiveAxes: ["plat"],
+    id: "RL1",
+    text: "I enjoy trying new languages and tools early.",
+    positiveAxes: ["release"],
     negativeAxes: [],
   },
   {
-    id: "S2",
-    text: "Running core infrastructure ourselves improves control and cost visibility at scale.",
+    id: "RL2",
+    text: "I wait for LTS and stability before adopting new tech.",
     positiveAxes: [],
-    negativeAxes: ["plat"],
+    negativeAxes: ["release"],
   },
   {
-    id: "S3",
-    text: "Provider auth, secrets, and identity services are preferable to building equivalents.",
-    positiveAxes: ["plat"],
+    id: "RL3",
+    text: "Adopting breaking changes when upgrading is an easy choice, if the benefits are real.",
+    positiveAxes: ["release"],
     negativeAxes: [],
   },
   {
-    id: "S4",
-    text: "Self-hosting critical services avoids provider outages and deprecations.",
+    id: "RL4",
+    text: "Stability beats novelty for my day-to-day work.",
     positiveAxes: [],
-    negativeAxes: ["plat"],
+    negativeAxes: ["release"],
   },
 
-  // Operational Surface
+  // Editor / Environment (IDE/Integrated + / Minimalist + CLI -)
   {
-    id: "O1",
-    text: "Default metrics, tracing, and structured logs pay off over time.",
-    positiveAxes: ["obs"],
+    id: "ED1",
+    text: "An integrated IDE (refactors, debugger, inspections) makes me faster than stitching tools together.",
+    positiveAxes: ["editor"],
     negativeAxes: [],
   },
   {
-    id: "O2",
-    text: "Minimal instrumentation keeps systems simpler to reason about.",
+    id: "ED2",
+    text: "A lightweight editor plus command-line tools is all I need most days.",
     positiveAxes: [],
-    negativeAxes: ["obs"],
+    negativeAxes: ["editor"],
   },
   {
-    id: "O3",
-    text: "Feature flags and progressive delivery materially reduce risk.",
-    positiveAxes: ["obs"],
+    id: "ED3",
+    text: "I’d rather master my IDE deeply than memorize lots of separate commands.",
+    positiveAxes: ["editor"],
     negativeAxes: [],
   },
   {
-    id: "O4",
-    text: "Fewer agents, sidecars, and dashboards often yields higher reliability.",
+    id: "ED4",
+    text: "Text editor + CLI (search, build, lint) gives me everything an IDE does with less overhead.",
     positiveAxes: [],
-    negativeAxes: ["obs"],
+    negativeAxes: ["editor"],
   },
 
-  // Cross-axis (multi-axis)
+  // Cross-axis (multi-axis where useful)
   {
     id: "X1",
-    text: "Adopting TypeScript across a monorepo improves onboarding and defect rates.",
-    positiveAxes: ["type", "repo", "team"],
+    text: "Static types make AI tools more reliable and easier to supervise.",
+    positiveAxes: ["typing", "ai"],
     negativeAxes: [],
   },
   {
     id: "X2",
-    text: "Letting teams pick language and repo layout increases velocity more than it harms maintainability.",
-    positiveAxes: [],
-    negativeAxes: ["team", "repo"],
+    text: "A quick prototype - possibly with AI help - is the best first step on uncertain problems.",
+    positiveAxes: ["ai"],
+    negativeAxes: ["design"],
   },
   {
     id: "X3",
-    text: "Using managed platform primitives typically reduces time-to-market.",
-    positiveAxes: ["plat"],
-    negativeAxes: ["proc"],
+    text: "Functional style pairs naturally with type-driven design to create clean and safe code.",
+    positiveAxes: ["paradigm", "typing"],
+    negativeAxes: [],
   },
   {
     id: "X4",
-    text: "Self-hosting CI/CD improves control and security in regulated environments.",
-    positiveAxes: ["risk"],
-    negativeAxes: ["plat"],
+    text: "Open-source communities adopt new innovations and improvements (to their benefit) faster than big vendors.",
+    positiveAxes: ["ethos", "release"],
+    negativeAxes: [],
   },
   {
     id: "X5",
-    text: "Strict entry/exit criteria are worth slower iteration for high-risk changes.",
-    positiveAxes: ["proc", "risk"],
+    text: "High-level tools plus clear interfaces beat low-level code for most everyday tasks.",
+    positiveAxes: ["abstraction", "design"],
     negativeAxes: [],
   },
   {
     id: "X6",
-    text: "A small MVP in a dynamic language is better than waiting to establish strong typing.",
-    positiveAxes: [],
-    negativeAxes: ["type", "proc"],
+    text: "AI tools make static typing less important, since they catch my mistakes anyway..",
+    positiveAxes: ["ai"],
+    negativeAxes: ["typing"],
   },
   {
     id: "X7",
-    text: "Runtime observability enables safe, frequent, small releases.",
-    positiveAxes: ["obs"],
-    negativeAxes: ["proc"],
+    text: "Objects with well-defined interfaces are easier for mixed-experience teams than pure function pipelines.",
+    positiveAxes: [],
+    negativeAxes: ["paradigm"],
   },
   {
     id: "X8",
-    text: "Hiding complexity behind stable abstractions helps most teams deliver faster.",
-    positiveAxes: ["arch"],
-    negativeAxes: ["proc"],
+    text: "Strong type systems make high-level abstractions safer to use.",
+    positiveAxes: ["typing", "abstraction"],
+    negativeAxes: [],
   },
 ];

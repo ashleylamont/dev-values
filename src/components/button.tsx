@@ -25,6 +25,10 @@ const COLORS = {
     outer: "text-red-800",
     inner: "bg-red-800",
   },
+  green: {
+    outer: "text-green-600",
+    inner: "bg-green-600",
+  },
 } as const;
 
 export interface ButtonProps {
@@ -39,10 +43,21 @@ export function Button(props: ButtonProps) {
   const className = COLORS[color].outer;
   const shadowClassName = COLORS[color].inner;
 
+  const onClickWithFocusClear = () => {
+    onClick();
+    // Clear focus to prevent button from being focused after click
+    setTimeout(() => {
+      const activeElement = document.activeElement as HTMLElement;
+      if (activeElement) {
+        activeElement.blur();
+      }
+    }, 0);
+  };
+
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={onClickWithFocusClear}
       className={`w-full group relative inline-block text-sm font-medium ${className} focus:ring-3 focus:outline-hidden cursor-pointer ${className}`}
     >
       <span
